@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Article;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $articles = Article::all();
+    return view('home', compact('articles'));
+})->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::resource('/article', ArticleController::class)->except(['index']);
 
-require __DIR__.'/auth.php';
+Route::view('/about', 'about')->name('about');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
+
+require __DIR__ . '/auth.php';
