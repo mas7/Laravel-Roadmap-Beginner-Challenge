@@ -3,6 +3,7 @@
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,18 @@ use App\Http\Controllers\ArticleController;
 
 Route::get('/', function () {
     $articles = Article::all();
-    return view('home', compact('articles'));
+    return view('article.index', compact('articles'));
 })->name('home');
 
-Route::resource('/article', ArticleController::class)->except(['index']);
-
 Route::view('/about', 'about')->name('about');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('/article', ArticleController::class)->except(['index']);
+
+    Route::resource('/category', CategoryController::class);
+});
+
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
