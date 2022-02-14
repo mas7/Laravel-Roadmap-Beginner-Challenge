@@ -44,10 +44,13 @@
                                                         </p>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <p class="text-gray-900 whitespace-no-wrap">
-                                                            {{ $category->title }}</p>
+                                                        <a href="{{ route('category.show', $category) }}">
+                                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                                {{ $category->title }}</p>
+                                                        </a>
                                                     </td>
-                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <td
+                                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex space-x-3">
                                                         <a class="bg-blue-100 rounded p-2"
                                                             href="{{ route('category.edit', $category) }}">Update</a>
 
