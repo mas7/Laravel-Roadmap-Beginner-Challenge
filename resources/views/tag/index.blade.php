@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Categories') }}
+            {{ __('Tags') }}
         </h2>
     </x-slot>
 
@@ -14,9 +14,9 @@
                             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                                 <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                     <header class="px-5 py-4 bg-gray-50 flex justify-between items-center">
-                                        <h2 class="font-semibold text-gray-800">Categories</h2>
+                                        <h2 class="font-semibold text-gray-800">Tags</h2>
                                         <a class="bg-purple-500 px-4 py-2 rounded text-white"
-                                            href="{{ route('category.create') }}">Add</a>
+                                            href="{{ route('tag.create') }}">Add</a>
                                     </header>
                                     <table class=" min-w-full leading-normal">
                                         <thead>
@@ -36,26 +36,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($categories as $category)
+                                            @forelse ($tags as $tag)
                                                 <tr>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <p class="text-gray-900 whitespace-no-wrap">
-                                                            {{ $category->id }}
+                                                            {{ $tag->id }}
                                                         </p>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <a href="{{ route('category.show', $category) }}">
+                                                        <a href="{{ route('tag.show', $tag) }}">
                                                             <p class="text-gray-900 whitespace-no-wrap">
-                                                                {{ $category->title }}</p>
+                                                                {{ $tag->title }}</p>
                                                         </a>
                                                     </td>
                                                     <td
                                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex space-x-3">
                                                         <a class="bg-blue-100 rounded p-2"
-                                                            href="{{ route('category.edit', $category) }}">Update</a>
+                                                            href="{{ route('tag.edit', $tag) }}">Update</a>
 
-                                                        <form action="{{ route('category.destroy', $category) }}"
-                                                            method="post">
+                                                        <form action="{{ route('tag.destroy', $tag) }}" method="post">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button class="bg-red-100 rounded p-2"
@@ -64,7 +63,9 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <p>No categories available.</p>
+                                                <p>
+                                                    No tags available.
+                                                </p>
                                             @endforelse
                                         </tbody>
                                     </table>

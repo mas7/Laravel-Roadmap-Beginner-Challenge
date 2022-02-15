@@ -9,6 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    @auth
+                        <div class="px-5 py-4 flex justify-end items-center">
+                            <a class="bg-purple-500 px-4 py-2 rounded text-white"
+                                href="{{ route('article.create') }}">Add</a>
+                        </div>
+                    @endauth
                     @forelse ($articles as $article)
                         <div class="mb-4">
                             {{-- Article Header --}}
@@ -32,7 +38,12 @@
                                 {{-- Article Body / Category & Text --}}
                                 <div>
                                     <div>
-                                        <h4 class='text-sm'>Category: {{ $article->category->title }}</h4>
+                                        <h4 class='text-sm '>Category:
+                                            <a class="underline text-sky-500"
+                                                href="{{ route('category.show', $article->category) }}">
+                                                {{ $article->category->title }}
+                                            </a>
+                                        </h4>
                                     </div>
                                     <div>
                                         <p>
@@ -45,7 +56,15 @@
                                     tags:
                                     @if ($article->tags)
                                         @foreach ($article->tags as $tag)
-                                            <span>{{ $tag->title }}</span>
+                                            <span>
+                                                <a class="underline text-sky-500"
+                                                    href="{{ route('tag.show', $tag) }}">
+                                                    {{ $tag->title }}
+                                                </a>
+                                                @if (!$loop->last)
+                                                    ,
+                                                @endif
+                                            </span>
                                         @endforeach
                                     @endif
                                 </div>

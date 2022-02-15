@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
+use App\Models\Article;
+use App\Models\Category;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
-use App\Models\Article;
 
 class ArticleController extends Controller
 {
@@ -25,7 +27,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('article.create', compact('categories', 'tags'));
     }
 
     /**
@@ -36,7 +40,22 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        //
+        // dd($request->all());
+        $imageName = time() . '.' . $request->image->extension();
+        $path = $request->image->move(public_path('images'), $imageName);
+
+        $article = Article::create([
+            'title' => $request->title,
+            'text' => $request->text,
+            'category_id' => $request->category_id,
+            'image' => $path,
+        ]);
+
+        $tags = explode(',', $request->tags);
+
+        $article->tags()->sync($tags);
+
+        return redirect()->route('home');
     }
 
     /**

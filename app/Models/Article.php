@@ -16,7 +16,6 @@ class Article extends Model
         'image',
         'text',
         'category_id',
-        'tag_id',
     ];
 
 
