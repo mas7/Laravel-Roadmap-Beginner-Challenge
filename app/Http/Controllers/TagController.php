@@ -8,6 +8,9 @@ use App\Models\tag;
 
 class TagController extends Controller
 {
+
+    protected $redirectRoute = 'tag.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +41,7 @@ class TagController extends Controller
     public function store(StoretagRequest $request)
     {
         Tag::create($request->validated());
-        return redirect()->route('tag.index');
+        return redirect()->route($this->redirectRoute);
     }
 
     /**
@@ -73,7 +76,7 @@ class TagController extends Controller
     public function update(UpdatetagRequest $request, tag $tag)
     {
         $tag->update($request->validated());
-        return redirect()->route('tag.index');
+        return redirect()->route($this->redirectRoute);
     }
 
     /**
@@ -85,6 +88,6 @@ class TagController extends Controller
     public function destroy(tag $tag)
     {
         $tag->delete();
-        return redirect()->route('tag.index');
+        return redirect()->route($this->redirectRoute);
     }
 }

@@ -21,6 +21,8 @@ class ArticleController extends Controller
     //     //
     // }
 
+    protected $redirectRoute = 'home';
+
     /**
      * Show the form for creating a new resource.
      *
@@ -58,7 +60,7 @@ class ArticleController extends Controller
 
         $article->tags()->sync($request->tags);
 
-        return redirect()->route('home');
+        return redirect()->route($this->redirectRoute);
     }
 
     /**
@@ -110,7 +112,7 @@ class ArticleController extends Controller
 
         $article->tags()->sync($request->tags);
 
-        return redirect()->route('home');
+        return redirect()->route($this->redirectRoute);
     }
 
     /**
@@ -133,6 +135,6 @@ class ArticleController extends Controller
         $article->delete();
 
         // Redirect
-        return redirect()->route('home');
+        return redirect()->route($this->redirectRoute);
     }
 }

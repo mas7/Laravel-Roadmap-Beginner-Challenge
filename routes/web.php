@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +17,14 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/', function () {
-    $articles = Article::all();
-    return view('article.index', compact('articles'));
-})->name('home');
+Route::get('/', HomeController::class)->name('home');
 
 Route::view('/about', 'about')->name('about');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware('auth')->group(function () {
     Route::resource('/article', ArticleController::class)->except(['index']);
-
     Route::resource('/category', CategoryController::class);
-
     Route::resource('/tag', TagController::class);
 });
-
-
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

@@ -8,6 +8,9 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
+
+    protected $redirectRoute = 'category.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +42,7 @@ class CategoryController extends Controller
     {
         // dd($request->validated());
         Category::create($request->validated());
-        return redirect()->route('category.index');
+        return redirect()->route($this->redirectRoute);
     }
 
     /**
@@ -74,7 +77,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
-        return redirect()->route('category.index');
+        return redirect()->route($this->redirectRoute);
     }
 
     /**
@@ -86,6 +89,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('category.index');
+        return redirect()->route($this->redirectRoute);
     }
 }
