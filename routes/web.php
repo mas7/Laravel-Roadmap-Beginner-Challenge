@@ -21,10 +21,9 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::view('/about', 'about')->name('about');
 
-Route::middleware('auth')->group(function () {
-    Route::resource('/article', ArticleController::class)->except(['index']);
-    Route::resource('/category', CategoryController::class);
-    Route::resource('/tag', TagController::class);
-});
+Route::resource('/article', ArticleController::class)->except(['index']);
+Route::resource('/category', CategoryController::class);
+Route::resource('/tag', TagController::class);
+
 
 require __DIR__ . '/auth.php';

@@ -11,6 +11,11 @@ class TagController extends Controller
 
     protected $redirectRoute = 'tag.index';
 
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * Display a listing of the resource.
      *

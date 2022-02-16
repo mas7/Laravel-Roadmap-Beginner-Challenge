@@ -11,6 +11,11 @@ class CategoryController extends Controller
 
     protected $redirectRoute = 'category.index';
 
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * Display a listing of the resource.
      *

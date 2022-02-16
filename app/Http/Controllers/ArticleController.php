@@ -11,17 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
+
 
     protected $redirectRoute = 'home';
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
 
     /**
      * Show the form for creating a new resource.
