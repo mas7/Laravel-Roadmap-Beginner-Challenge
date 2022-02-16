@@ -20,7 +20,19 @@ class ArticleFactory extends Factory
             'title' => $this->faker->words(3, true),
             'text' => $this->faker->text(100),
             // Check the image download from faker
-            'image' => $this->faker->imageUrl(360, 360, 'animals', true, 'cats'),
+            'image' => strstr(
+                $this->faker->image(
+                    public_path('storage/images'),
+                    360,
+                    360,
+                    'animals',
+                    true,
+                    true,
+                    'cats',
+                    false
+                ),
+                'storage'
+            ),
             'category_id' => Category::all()->random(),
         ];
     }

@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -41,8 +42,12 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         // dd($request->all());
-        $imageName = time() . '.' . $request->image->extension();
-        $path = $request->image->move(public_path('images'), $imageName);
+        $path = NULL;
+
+        if ($request->image) {
+            $path = $request->file('image')->store('images', 'public');
+        }
+
 
         $article = Article::create([
             'title' => $request->title,
@@ -51,9 +56,7 @@ class ArticleController extends Controller
             'image' => $path,
         ]);
 
-        $tags = explode(',', $request->tags);
-
-        $article->tags()->sync($tags);
+        $article->tags()->sync($request->tags);
 
         return redirect()->route('home');
     }
@@ -77,7 +80,9 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('article.edit', compact('article', 'categories', 'tags'));
     }
 
     /**
@@ -89,7 +94,23 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, Article $article)
     {
-        //
+        $path = NULL;
+
+        if ($request->image) {
+            $path = $request->file('image')->store('images', 'public');
+        }
+
+
+        $article->update([
+            'title' => $request->title,
+            'text' => $request->text,
+            'category_id' => $request->category_id,
+            'image' => ($article->image != NULL && $path == NULL) ? $article->image : $path,
+        ]);
+
+        $article->tags()->sync($request->tags);
+
+        return redirect()->route('home');
     }
 
     /**
@@ -100,6 +121,18 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        // Delete Image
+        if ($article->image != NULL) {
+            Storage::disk('public')->delete($article->image);
+        }
+
+        // Detach Tags
+        $article->tags()->detach();
+
+        // Delete Object
+        $article->delete();
+
+        // Redirect
+        return redirect()->route('home');
     }
 }

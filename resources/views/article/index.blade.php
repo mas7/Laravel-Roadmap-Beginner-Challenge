@@ -23,7 +23,8 @@
                                     <a href="{{ route('article.show', $article) }}">
                                         {{-- Article Header / Image --}}
                                         <div>
-                                            <img src="{{ $article->image }}" alt="{{ $article->title }} image">
+                                            <img src="{{ asset($article->image) }}"
+                                                alt="{{ $article->title }} image">
                                         </div>
                                         {{-- Article Header / Title & Date --}}
                                         <div>
